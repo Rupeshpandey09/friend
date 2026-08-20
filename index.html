@@ -1,478 +1,2362 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday My Love ❤️</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>For You — A Little Book of Beautiful Things</title>
+
+    <!-- ============================================
+    GOOGLE FONTS
+    ============================================ -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;600&display=swap');
-        
+        /* ============================================
+           GLOBAL RESET & BASE
+           ============================================ */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --book-width: min(340px, 92vw);
+            --book-height: min(480px, 72vh);
+            --spine-width: 3px;
+            --page-half: calc(var(--book-width) / 2);
+            --warm-light: #f5e6c8;
+            --desk-dark: #2a1d12;
+            --paper-cream: #f8f0e0;
+            --ink-dark: #3b2a1a;
+            --leather-dark: #1a120e;
+            --gold-emboss: #c9a94e;
+            --shadow-deep: rgba(0, 0, 0, 0.65);
+            --shadow-mid: rgba(0, 0, 0, 0.45);
+            --shadow-light: rgba(0, 0, 0, 0.25);
+            --turn-duration: 0.75s;
+            --turn-ease: cubic-bezier(0.32, 0.08, 0.24, 0.96);
+        }
+
+        html,
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #000;
-            color: #fff;
-            overflow-x: hidden;
-            height: 100vh;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Caveat', cursive;
+            background: #0f0a07;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-user-select: none;
+            user-select: none;
+            touch-action: manipulation;
+        }
+
+        /* ============================================
+           WOODEN DESK BACKGROUND
+           ============================================ */
+        .desk {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            background:
+                radial-gradient(ellipse at 50% 38%, #5a3d2b 0%, #3d261a 28%, #2a1810 58%, #1a0f09 82%, #0f0a07 100%);
+            overflow: hidden;
+        }
+
+        .desk::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                repeating-linear-gradient(2deg,
+                    rgba(0, 0, 0, 0.14) 0px,
+                    rgba(0, 0, 0, 0.03) 3px,
+                    rgba(255, 255, 255, 0.02) 6px,
+                    rgba(0, 0, 0, 0.1) 9px,
+                    rgba(0, 0, 0, 0.05) 13px,
+                    rgba(255, 255, 255, 0.015) 17px,
+                    rgba(0, 0, 0, 0.12) 21px,
+                    rgba(0, 0, 0, 0.04) 25px);
+            pointer-events: none;
+            mix-blend-mode: overlay;
+        }
+
+        .desk::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 50% 30%, rgba(255, 220, 160, 0.08) 0%, transparent 55%),
+                radial-gradient(ellipse at 20% 70%, rgba(255, 180, 120, 0.05) 0%, transparent 40%);
+            pointer-events: none;
+        }
+
+        /* ============================================
+           WARM LAMP LIGHT OVERLAY
+           ============================================ */
+        .lamp-glow {
+            position: fixed;
+            inset: 0;
+            z-index: 2;
+            pointer-events: none;
+            background:
+                radial-gradient(ellipse at 50% 22%, rgba(255, 205, 140, 0.18) 0%, rgba(255, 180, 100, 0.07) 25%, transparent 55%),
+                radial-gradient(ellipse at 50% 85%, rgba(255, 190, 130, 0.06) 0%, transparent 40%);
+            mix-blend-mode: screen;
+        }
+
+        /* ============================================
+           VIGNETTE
+           ============================================ */
+        .vignette {
+            position: fixed;
+            inset: 0;
+            z-index: 3;
+            pointer-events: none;
+            background: radial-gradient(ellipse at center, transparent 35%, rgba(0, 0, 0, 0.5) 75%, rgba(0, 0, 0, 0.82) 100%);
+        }
+
+        /* ============================================
+           DUST PARTICLES
+           ============================================ */
+        .dust-container {
+            position: fixed;
+            inset: 0;
+            z-index: 4;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .dust-particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255, 230, 180, 0.55);
+            border-radius: 50%;
+            filter: blur(0.5px);
+            animation: floatDust 8s infinite ease-in-out;
+            opacity: 0;
+        }
+
+        .dust-particle:nth-child(1) {
+            left: 12%;
+            top: 45%;
+            animation-delay: 0s;
+            animation-duration: 9s;
+            width: 1.5px;
+            height: 1.5px;
+        }
+        .dust-particle:nth-child(2) {
+            left: 28%;
+            top: 35%;
+            animation-delay: 1.2s;
+            animation-duration: 11s;
+            width: 2.5px;
+            height: 2.5px;
+        }
+        .dust-particle:nth-child(3) {
+            left: 47%;
+            top: 25%;
+            animation-delay: 2.4s;
+            animation-duration: 7.5s;
+            width: 1.8px;
+            height: 1.8px;
+        }
+        .dust-particle:nth-child(4) {
+            left: 62%;
+            top: 40%;
+            animation-delay: 0.8s;
+            animation-duration: 10s;
+            width: 2px;
+            height: 2px;
+        }
+        .dust-particle:nth-child(5) {
+            left: 75%;
+            top: 30%;
+            animation-delay: 3.2s;
+            animation-duration: 8.5s;
+            width: 1.6px;
+            height: 1.6px;
+        }
+        .dust-particle:nth-child(6) {
+            left: 88%;
+            top: 50%;
+            animation-delay: 1.8s;
+            animation-duration: 12s;
+            width: 2.2px;
+            height: 2.2px;
+        }
+        .dust-particle:nth-child(7) {
+            left: 18%;
+            top: 55%;
+            animation-delay: 4s;
+            animation-duration: 9.5s;
+            width: 1.4px;
+            height: 1.4px;
+        }
+        .dust-particle:nth-child(8) {
+            left: 40%;
+            top: 50%;
+            animation-delay: 2s;
+            animation-duration: 13s;
+            width: 2.8px;
+            height: 2.8px;
+        }
+        .dust-particle:nth-child(9) {
+            left: 55%;
+            top: 18%;
+            animation-delay: 0.5s;
+            animation-duration: 7s;
+            width: 1.2px;
+            height: 1.2px;
+        }
+        .dust-particle:nth-child(10) {
+            left: 68%;
+            top: 48%;
+            animation-delay: 3.8s;
+            animation-duration: 10.5s;
+            width: 2px;
+            height: 2px;
+        }
+        .dust-particle:nth-child(11) {
+            left: 32%;
+            top: 62%;
+            animation-delay: 5s;
+            animation-duration: 8s;
+            width: 1.7px;
+            height: 1.7px;
+        }
+        .dust-particle:nth-child(12) {
+            left: 80%;
+            top: 28%;
+            animation-delay: 2.6s;
+            animation-duration: 9.2s;
+            width: 1.9px;
+            height: 1.9px;
+        }
+
+        @keyframes floatDust {
+            0% {
+                opacity: 0;
+                transform: translateY(0) translateX(0) scale(1);
+            }
+            15% {
+                opacity: 0.7;
+            }
+            50% {
+                opacity: 0.45;
+                transform: translateY(-50px) translateX(20px) scale(0.9);
+            }
+            85% {
+                opacity: 0.15;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-120px) translateX(-15px) scale(0.8);
+            }
+        }
+
+        /* ============================================
+           AUDIO TOGGLE BUTTON
+           ============================================ */
+        .audio-toggle {
+            position: fixed;
+            bottom: 16px;
+            right: 16px;
+            z-index: 100;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(20, 12, 8, 0.7);
+            border: 1px solid rgba(180, 140, 90, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            transition: all 0.3s ease;
+            font-size: 18px;
+            color: #d4b896;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+        }
+        .audio-toggle:active {
+            transform: scale(0.9);
+            background: rgba(30, 18, 10, 0.85);
+        }
+        .audio-toggle .icon {
+            pointer-events: none;
+            letter-spacing: 0;
+            line-height: 1;
+        }
+
+        /* ============================================
+           BOOK CONTAINER
+           ============================================ */
+        .book-stage {
+            position: fixed;
+            inset: 0;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            perspective: 1400px;
+            perspective-origin: 50% 40%;
+            -webkit-perspective: 1400px;
+            -webkit-perspective-origin: 50% 40%;
+        }
+
+        /* ============================================
+           BOOK WRAPPER (for 3D positioning)
+           ============================================ */
+        .book-wrapper {
+            position: relative;
+            width: var(--book-width);
+            height: var(--book-height);
+            transform-style: preserve-3d;
+            -webkit-transform-style: preserve-3d;
+            transition: transform 0.6s ease;
+        }
+
+        /* ============================================
+           BOOK SHADOW ON DESK
+           ============================================ */
+        .book-desk-shadow {
+            position: absolute;
+            bottom: -18px;
+            left: -8%;
+            width: 116%;
+            height: 32px;
+            background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.3) 50%, transparent 75%);
+            border-radius: 50%;
+            z-index: 1;
+            pointer-events: none;
+            transition: all 0.6s ease;
+            filter: blur(6px);
+        }
+
+        /* ============================================
+           BOOK HARDCOVER (closed state)
+           ============================================ */
+        .book-cover-closed {
+            position: absolute;
+            inset: 0;
+            z-index: 30;
+            transform-style: preserve-3d;
+            -webkit-transform-style: preserve-3d;
+            transform-origin: left center;
+            -webkit-transform-origin: left center;
+            cursor: pointer;
+            transition: transform 1.2s cubic-bezier(0.25, 0.1, 0.2, 1);
+        }
+
+        .book-cover-closed.opening {
+            transform: rotateY(-175deg);
+            -webkit-transform: rotateY(-175deg);
+        }
+
+        .cover-face {
+            position: absolute;
+            inset: 0;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            border-radius: 6px 10px 10px 6px;
+            overflow: hidden;
+        }
+
+        .cover-front {
+            background:
+                radial-gradient(ellipse at 30% 25%, #2a1e14 0%, #1a100a 40%, #0f0805 75%, #080502 100%);
+            border: 1px solid rgba(80, 55, 35, 0.6);
+            box-shadow:
+                inset 0 0 80px rgba(0, 0, 0, 0.7),
+                inset 0 0 30px rgba(0, 0, 0, 0.5),
+                6px 8px 30px rgba(0, 0, 0, 0.8),
+                0 2px 8px rgba(0, 0, 0, 0.6);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        .cover-front::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                repeating-linear-gradient(45deg,
+                    rgba(0, 0, 0, 0.08) 0px,
+                    rgba(0, 0, 0, 0.04) 2px,
+                    rgba(255, 255, 255, 0.015) 3px,
+                    rgba(0, 0, 0, 0.06) 5px,
+                    rgba(255, 255, 255, 0.01) 7px);
+            pointer-events: none;
+            border-radius: 6px 10px 10px 6px;
+        }
+
+        .cover-front::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 6px 10px 10px 6px;
+            box-shadow:
+                inset 0 0 12px rgba(0, 0, 0, 0.6),
+                inset 2px 0 6px rgba(0, 0, 0, 0.4),
+                inset -2px 0 6px rgba(0, 0, 0, 0.4);
+            pointer-events: none;
+        }
+
+        .cover-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(22px, 6vw, 30px);
+            font-weight: 600;
+            letter-spacing: 2px;
+            color: #d8b96a;
+            text-shadow:
+                0 1px 2px rgba(0, 0, 0, 0.9),
+                0 2px 4px rgba(0, 0, 0, 0.7),
+                0 0 20px rgba(200, 160, 60, 0.18);
+            position: relative;
+            z-index: 1;
+            margin-bottom: 6px;
+        }
+
+        .cover-subtitle {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(10px, 2.5vw, 13px);
+            font-weight: 400;
+            font-style: italic;
+            letter-spacing: 1.5px;
+            color: #c4a86a;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+            position: relative;
+            z-index: 1;
+            margin-bottom: 12px;
+        }
+
+        .cover-ornament {
+            width: 40px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #c9a94e, transparent);
+            position: relative;
+            z-index: 1;
+            margin: 4px 0;
+        }
+
+        .cover-small-text {
+            font-family: 'Caveat', cursive;
+            font-size: clamp(11px, 2.8vw, 14px);
+            color: #b8a070;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+            position: relative;
+            z-index: 1;
+        }
+
+        .cover-back {
+            background: linear-gradient(135deg, #e8dfcd 0%, #d5c9af 30%, #c8b998 70%, #baa884 100%);
+            border: 1px solid rgba(150, 125, 90, 0.4);
+            box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: rotateY(180deg);
+            -webkit-transform: rotateY(180deg);
+        }
+
+        .cover-back-pattern {
+            width: 82%;
+            height: 85%;
+            border: 1px solid rgba(180, 150, 100, 0.3);
+            border-radius: 4px;
+            background: repeating-conic-gradient(rgba(160, 130, 80, 0.06) 0% 25%, transparent 0% 50%) 0 0 / 22px 22px;
+        }
+
+        .page-edges-closed {
+            position: absolute;
+            right: 0;
+            top: 4px;
+            bottom: 4px;
+            width: 14px;
+            z-index: 29;
+            pointer-events: none;
+            border-radius: 0 10px 10px 0;
+            background: repeating-linear-gradient(to bottom,
+                    #f5ead5 0px,
+                    #e8dcc0 1px,
+                    #d5c8aa 2px,
+                    #e5d8b8 3px,
+                    #efe3c8 4px,
+                    #d8cbaa 5px);
+            box-shadow:
+                -1px 0 3px rgba(0, 0, 0, 0.4),
+                inset 1px 0 2px rgba(255, 255, 240, 0.4);
+            opacity: 0.85;
+        }
+
+        .spine-edge {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: var(--spine-width);
+            z-index: 32;
+            background: linear-gradient(90deg,
+                    #0c0604 0%,
+                    #1a0e08 40%,
+                    #2a1a10 60%,
+                    #150a06 100%);
+            border-radius: 4px 0 0 4px;
+            box-shadow:
+                inset 0 0 6px rgba(0, 0, 0, 0.8),
+                2px 0 8px rgba(0, 0, 0, 0.6);
+            pointer-events: none;
+        }
+
+        /* ============================================
+           TAP TO OPEN TEXT
+           ============================================ */
+        .tap-hint {
+            position: fixed;
+            bottom: 42px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 50;
+            font-family: 'Caveat', cursive;
+            font-size: 15px;
+            color: rgba(220, 190, 150, 0.7);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+            pointer-events: none;
+            transition: opacity 0.8s ease;
+            letter-spacing: 0.5px;
+        }
+        .tap-hint.hidden {
+            opacity: 0;
+        }
+
+        /* ============================================
+           BOOK PAGES CONTAINER (inside the book)
+           ============================================ */
+        .pages-container {
+            position: absolute;
+            inset: 4px 6px 8px 8px;
+            z-index: 10;
+            transform-style: preserve-3d;
+            -webkit-transform-style: preserve-3d;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.4s ease 0.3s;
+        }
+        .pages-container.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* ============================================
+           INDIVIDUAL SPREAD
+           ============================================ */
+        .spread {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .spread.active {
+            opacity: 1;
+            pointer-events: auto;
+            z-index: 5;
+        }
+        .spread.underneath {
+            opacity: 1;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .page-left,
+        .page-right {
+            position: relative;
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+            background: var(--paper-cream);
+            display: flex;
+            flex-direction: column;
+            padding: 22px 18px;
+            pointer-events: auto;
+        }
+
+        .page-left {
+            border-radius: 2px 0 0 2px;
+            box-shadow:
+                inset -6px 0 12px rgba(0, 0, 0, 0.12),
+                inset -2px 0 4px rgba(0, 0, 0, 0.08),
+                0 0 0 1px rgba(180, 155, 115, 0.2);
+            border-right: 1px solid rgba(150, 120, 80, 0.25);
+        }
+
+        .page-right {
+            border-radius: 0 2px 2px 0;
+            box-shadow:
+                inset 6px 0 12px rgba(0, 0, 0, 0.1),
+                inset 2px 0 4px rgba(0, 0, 0, 0.06),
+                0 0 0 1px rgba(180, 155, 115, 0.2);
+            border-left: 1px solid rgba(150, 120, 80, 0.2);
+        }
+
+        .page-left::before,
+        .page-right::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                repeating-linear-gradient(0deg,
+                    rgba(0, 0, 0, 0.015) 0px,
+                    rgba(0, 0, 0, 0.01) 2px,
+                    rgba(255, 255, 255, 0.02) 4px,
+                    rgba(0, 0, 0, 0.012) 6px),
+                radial-gradient(ellipse at 50% 50%, rgba(255, 255, 250, 0.25) 0%, transparent 70%);
+            pointer-events: none;
+            border-radius: inherit;
+        }
+
+        /* ============================================
+           FLIP PAGE (for page-turn animation)
+           ============================================ */
+        .flip-page {
+            position: absolute;
+            top: 4px;
+            right: 6px;
+            width: calc(50% - 6px);
+            height: calc(100% - 12px);
+            z-index: 20;
+            transform-style: preserve-3d;
+            -webkit-transform-style: preserve-3d;
+            transform-origin: left center;
+            -webkit-transform-origin: left center;
+            pointer-events: none;
+            transition: transform var(--turn-duration) var(--turn-ease);
+            will-change: transform;
+        }
+
+        .flip-page.forward {
+            transform: rotateY(-178deg);
+            -webkit-transform: rotateY(-178deg);
+        }
+        .flip-page.backward {
+            transform: rotateY(2deg);
+            -webkit-transform: rotateY(2deg);
+        }
+
+        .flip-face {
+            position: absolute;
+            inset: 0;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            overflow: hidden;
+            background: var(--paper-cream);
+            display: flex;
+            flex-direction: column;
+            padding: 22px 18px;
+            border-radius: 2px;
+        }
+
+        .flip-face.front {
+            box-shadow:
+                inset -6px 0 12px rgba(0, 0, 0, 0.1),
+                inset -2px 0 4px rgba(0, 0, 0, 0.06),
+                0 0 0 1px rgba(180, 155, 115, 0.2);
+        }
+        .flip-face.back {
+            transform: rotateY(180deg);
+            -webkit-transform: rotateY(180deg);
+            box-shadow:
+                inset 6px 0 12px rgba(0, 0, 0, 0.1),
+                inset 2px 0 4px rgba(0, 0, 0, 0.06),
+                0 0 0 1px rgba(180, 155, 115, 0.2);
+        }
+
+        .flip-face::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                repeating-linear-gradient(0deg,
+                    rgba(0, 0, 0, 0.015) 0px,
+                    rgba(0, 0, 0, 0.01) 2px,
+                    rgba(255, 255, 255, 0.02) 4px,
+                    rgba(0, 0, 0, 0.012) 6px),
+                radial-gradient(ellipse at 50% 50%, rgba(255, 255, 250, 0.2) 0%, transparent 70%);
+            pointer-events: none;
+            border-radius: 2px;
+        }
+
+        .page-turn-shadow {
+            position: absolute;
+            inset: 0;
+            z-index: 15;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            background: radial-gradient(ellipse at 50% 55%, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0.15) 45%, transparent 70%);
+        }
+        .page-turn-shadow.active {
+            opacity: 1;
+        }
+
+        /* ============================================
+           PAGE CONTENT STYLES
+           ============================================ */
+        .handwritten {
+            font-family: 'Caveat', cursive;
+            color: var(--ink-dark);
+            line-height: 1.5;
+            font-weight: 500;
+            text-shadow: 0.5px 0.5px 0 rgba(0, 0, 0, 0.08);
+        }
+
+        .handwritten-sm {
+            font-size: clamp(12px, 3.2vw, 15px);
+        }
+        .handwritten-md {
+            font-size: clamp(14px, 3.6vw, 17px);
+        }
+        .handwritten-lg {
+            font-size: clamp(16px, 4vw, 20px);
+        }
+        .handwritten-xl {
+            font-size: clamp(20px, 5vw, 26px);
+        }
+        .handwritten-xxl {
+            font-size: clamp(24px, 6vw, 32px);
+        }
+
+        .heading-serif {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            color: #3d2a1a;
+            letter-spacing: 0.5px;
+            font-size: clamp(18px, 4.5vw, 24px);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+        }
+
+        .heading-script {
+            font-family: 'Dancing Script', cursive;
+            font-weight: 600;
+            color: #4a3222;
+            font-size: clamp(20px, 5vw, 28px);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+        }
+
+        .page-center-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            height: 100%;
+            gap: 8px;
+        }
+
+        .page-top-content {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            height: 100%;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        .page-top-content::-webkit-scrollbar {
+            width: 2px;
+        }
+        .page-top-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .page-top-content::-webkit-scrollbar-thumb {
+            background: rgba(120, 90, 60, 0.3);
+            border-radius: 2px;
+        }
+
+        .spacer {
+            flex-grow: 1;
+        }
+
+        /* ============================================
+           SMALL HEARTS & DECORATIVE ELEMENTS
+           ============================================ */
+        .tiny-heart {
+            display: inline-block;
+            color: #c4a0a0;
+            font-size: 0.8em;
+            position: relative;
+            animation: gentlePulse 3s infinite ease-in-out;
+        }
+
+        @keyframes gentlePulse {
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+        }
+
+        .ornament-line {
+            width: 50px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(180, 150, 110, 0.6), transparent);
+            margin: 4px 0;
+        }
+
+        /* ============================================
+           SCRAPBOOK PAGE
+           ============================================ */
+        .scrapbook-note {
+            position: absolute;
+            font-family: 'Caveat', cursive;
+            color: var(--ink-dark);
+            font-size: clamp(13px, 3.2vw, 16px);
+            padding: 6px 10px;
+            background: rgba(255, 250, 240, 0.7);
+            border-radius: 3px;
+            box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.1);
+            line-height: 1.4;
+            z-index: 2;
+            white-space: nowrap;
+            transform-origin: center;
+        }
+        .scrapbook-note::after {
+            content: '❤';
+            position: absolute;
+            font-size: 9px;
+            bottom: -8px;
+            right: -4px;
+            color: rgba(190, 140, 140, 0.7);
+        }
+
+        /* ============================================
+           PRESSED FLOWER
+           ============================================ */
+        .pressed-flower {
+            position: relative;
+            width: 100px;
+            height: 120px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.85;
+            filter: sepia(0.3) saturate(0.7);
+        }
+
+        .flower-stem {
+            position: absolute;
+            width: 2px;
+            height: 90px;
+            background: linear-gradient(180deg, #5a6b3a, #3d4a25, #2a3218);
+            border-radius: 1px;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%) rotate(-3deg);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+        }
+        .flower-stem::before {
+            content: '';
+            position: absolute;
+            width: 1px;
+            height: 28px;
+            background: #4a5528;
+            left: 8px;
+            top: 22px;
+            transform: rotate(45deg);
+            border-radius: 1px;
+        }
+        .flower-stem::after {
+            content: '';
+            position: absolute;
+            width: 1px;
+            height: 22px;
+            background: #4a5528;
+            right: 7px;
+            top: 35px;
+            transform: rotate(-38deg);
+            border-radius: 1px;
+        }
+
+        .flower-head {
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: radial-gradient(ellipse at center, #e8c9a0 0%, #d4a878 30%, #b8855a 60%, #9a6a40 85%, #7a4e2a 100%);
+            box-shadow:
+                inset 0 2px 6px rgba(0, 0, 0, 0.2),
+                inset 0 -2px 4px rgba(0, 0, 0, 0.15),
+                0 2px 4px rgba(0, 0, 0, 0.2);
+            opacity: 0.9;
+        }
+        .flower-head::before {
+            content: '';
+            position: absolute;
+            inset: 5px;
+            border-radius: 50%;
+            border: 1px dashed rgba(120, 80, 40, 0.4);
+        }
+        .flower-head::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: radial-gradient(circle at center, #6b4525, #4a2d15);
+            box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .flower-petal {
+            position: absolute;
+            width: 16px;
+            height: 10px;
+            border-radius: 50% 50% 50% 50%;
+            background: linear-gradient(180deg, #e5c8a5, #c49a6a);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+            opacity: 0.8;
+        }
+
+        /* ============================================
+           ENVELOPE
+           ============================================ */
+        .envelope-container {
+            position: relative;
+            width: min(160px, 42vw);
+            height: 110px;
+            margin: 0 auto;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            transition: transform 0.2s ease;
+        }
+        .envelope-container:active {
+            transform: scale(0.96);
+        }
+
+        .envelope-body {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, #f0e5d0 0%, #e0d0b5 40%, #d5c0a0 70%, #c8b28a 100%);
+            border-radius: 4px;
+            box-shadow:
+                0 3px 8px rgba(0, 0, 0, 0.2),
+                inset 0 0 20px rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(180, 150, 110, 0.4);
+        }
+
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(180deg, #ede0c5 0%, #d8c8a5 60%, #c0ae88 100%);
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+            transform-origin: top center;
+            transition: transform 0.6s cubic-bezier(0.3, 0.05, 0.25, 1);
+            z-index: 2;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+            border-radius: 2px 2px 0 0;
+        }
+        .envelope-flap.open {
+            transform: rotateX(175deg);
+            -webkit-transform: rotateX(175deg);
+            z-index: 0;
+        }
+
+        .envelope-card {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            background: #faf5ea;
+            border-radius: 2px;
+            z-index: 1;
+            padding: 12px 10px;
+            text-align: center;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            gap: 4px;
+            transform: translateY(0);
+            transition: transform 0.7s cubic-bezier(0.25, 0.1, 0.2, 1) 0.15s;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(200, 175, 140, 0.3);
         }
-        
-        .countdown {
-            font-family: 'Dancing Script', cursive;
-            text-align: center;
-            margin-bottom: 2rem;
+        .envelope-card.revealed {
+            transform: translateY(-28px);
         }
-        
-        #countdown-timer {
-            font-size: 2rem;
-            color: #ff69b4;
-            margin-top: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 5px;
+
+        .envelope-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Caveat', cursive;
+            font-size: 14px;
+            color: #5a4030;
+            z-index: 3;
+            pointer-events: none;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            white-space: nowrap;
+            transition: opacity 0.3s ease;
         }
-        
-        .time-block {
+        .envelope-label.hidden {
+            opacity: 0;
+        }
+
+        /* ============================================
+           HANDWRITTEN BUTTON (Turn the page)
+           ============================================ */
+        .handwritten-btn {
             display: inline-block;
-            min-width: 50px;
-            text-align: center;
-            background: rgba(255,105,180,0.2);
-            border-radius: 5px;
-            padding: 5px;
-            margin: 0 2px;
-            box-shadow: 0 0 5px rgba(255,105,180,0.5);
-            animation: pulse 1s infinite alternate;
+            font-family: 'Caveat', cursive;
+            font-size: clamp(18px, 4.5vw, 22px);
+            color: #4a3222;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 8px 16px;
+            position: relative;
+            -webkit-tap-highlight-color: transparent;
+            transition: all 0.25s ease;
+            text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.1);
+            letter-spacing: 0.5px;
         }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.05); }
+        .handwritten-btn::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 1.5px;
+            background: #8a6a4a;
+            transition: width 0.3s ease;
+            border-radius: 1px;
         }
-        
-        .birthday-content {
-            display: none;
-            flex-direction: column;
+        .handwritten-btn:active {
+            transform: scale(0.94);
+        }
+        .handwritten-btn:hover::after {
+            width: 80%;
+        }
+
+        /* ============================================
+           MODERN GITHUB BUTTON (final secret)
+           ============================================ */
+        .github-btn {
+            display: inline-block;
+            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            color: #ffffff;
+            background: #1a1a1a;
+            padding: 12px 24px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            text-decoration: none;
+            display: inline-flex;
             align-items: center;
-            width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 10;
+            gap: 8px;
         }
-        
-        .cake-container {
-            position: relative;
-            width: 300px;
-            height: 300px;
-            margin: 2rem 0;
-            z-index: 5;
+        .github-btn:active {
+            transform: scale(0.95);
+            background: #2a2a2a;
         }
-        
-        .cake {
-            width: 100%;
-            height: 100%;
-            position: relative;
+        .github-btn .btn-icon {
+            font-size: 18px;
+            line-height: 1;
         }
-        
-        .candle {
-            position: absolute;
-            width: 20px;
-            height: 80px;
-            background: linear-gradient(to right, #ff8a00, #ff0058, #ff0000);
-            border-radius: 10px;
-            transform: translateX(-50%);
-            z-index: 2;
+
+        /* ============================================
+           RESPONSIVE ADJUSTMENTS
+           ============================================ */
+        @media (max-width: 380px) {
+            :root {
+                --book-width: 92vw;
+                --book-height: 68vh;
+            }
+            .page-left,
+            .page-right,
+            .flip-face {
+                padding: 16px 12px;
+            }
+            .cover-title {
+                font-size: 20px;
+            }
         }
-        
-        .flame {
-            position: absolute;
-            width: 10px;
-            height: 30px;
-            background: linear-gradient(to top, #fff, #ff8a00, #ff0058);
-            border-radius: 50% 50% 20% 20%;
-            box-shadow: 0 0 20px #ff8a00, 0 0 40px #ff0000;
-            animation: flicker 0.5s infinite alternate;
-            transform: translateX(-50%);
-            top: -30px;
+        @media (min-width: 500px) {
+            :root {
+                --book-width: min(380px, 70vw);
+                --book-height: min(520px, 75vh);
+            }
         }
-        
-        @keyframes flicker {
-            0% { transform: translateX(-50%) scale(1); opacity: 1; }
-            100% { transform: translateX(-50%) scale(1.2); opacity: 0.8; }
+        @media (min-height: 800px) {
+            :root {
+                --book-height: min(540px, 65vh);
+            }
         }
-        
-        .message-container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 2rem;
-            border-radius: 15px;
-            margin: 2rem 0;
-            max-width: 600px;
-            width: 90%;
-        }
-        
-        .message {
-            font-family: 'Dancing Script', cursive;
-            font-size: 1.5rem;
-            line-height: 1.6;
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-        
-        .signature {
-            font-family: 'Dancing Script', cursive;
-            font-size: 2rem;
-            text-align: right;
-            color: #ff69b4;
-            margin-top: 1rem;
-        }
-        
-        .firework {
-            position: absolute;
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.8);
-            animation: firework 2s ease-out infinite;
-            opacity: 0;
-            z-index: 1;
-        }
-        
-        @keyframes firework {
-            0% { transform: translate(0, 0); opacity: 1; width: 5px; height: 5px; }
-            100% { transform: translate(var(--x), var(--y)); opacity: 0; width: 100px; height: 100px; }
-        }
-        
-        .heart {
-            position: absolute;
-            font-size: 2rem;
-            color: red;
-            opacity: 0;
-            animation: float 5s ease-in infinite;
-            z-index: 5;
-        }
-        
-        @keyframes float {
-            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-            20% { opacity: 1; }
-            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
-        }
-        
-        .photo-frame {
-            width: 200px;
-            height: 200px;
-            border-radius: 20px;
-            overflow: hidden;
-            margin: 2rem auto;
-            border: 5px solid #ff69b4;
-            box-shadow: 0 0 30px rgba(255, 105, 180, 0.5);
-            position: relative;
-        }
-        
-        .photo-frame img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .together-text {
-            background: linear-gradient(90deg, #ff69b4, #ff3366, #ff69b4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-align: center;
-            font-size: 2rem;
-            font-weight: bold;
-            margin: 1rem 0;
-        }
-        
-        .long-distance {
-            text-align: center;
-            font-style: italic;
-            margin-bottom: 2rem;
-        }
-        
-        .audio-player {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 100;
-        }
-        
-        .confetti {
-            position: fixed;
-            z-index: 999;
-        }
-        
-        @keyframes fall {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
-        }
-        
-        @keyframes fadeOut {
-            0% { opacity: 1; }
-            100% { opacity: 0; display: none; }
+        @media (max-height: 600px) {
+            :root {
+                --book-height: 58vh;
+            }
+            .page-left,
+            .page-right,
+            .flip-face {
+                padding: 14px 10px;
+            }
         }
     </style>
 </head>
 <body>
-    <div id="romantic-overlay" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#000;z-index:1000;display:flex;justify-content:center;align-items:center;flex-direction:column;animation:fadeOut 2s 2s forwards">
-        <h1 style="font-family:'Dancing Script';font-size:3rem;color:#ff69b4">For Someone Very Special...</h1>
-    </div>
-    <div class="countdown" id="countdown" style="display:none">
-        <h1 class="text-4xl font-bold mb-4">Our Special Countdown</h1>
-        <p>The magic begins in:</p>
-        <div id="countdown-timer">-- : -- : --</div>
+
+    <!-- ============================================
+    WOODEN DESK BACKGROUND
+    ============================================ -->
+    <div class="desk"></div>
+
+    <!-- ============================================
+    WARM LAMP LIGHT
+    ============================================ -->
+    <div class="lamp-glow"></div>
+
+    <!-- ============================================
+    VIGNETTE
+    ============================================ -->
+    <div class="vignette"></div>
+
+    <!-- ============================================
+    DUST PARTICLES
+    ============================================ -->
+    <div class="dust-container" id="dustContainer"></div>
+
+    <!-- ============================================
+    AUDIO TOGGLE
+    ============================================ -->
+    <div class="audio-toggle" id="audioToggle" title="Toggle sound">
+        <span class="icon" id="audioIcon">🔇</span>
     </div>
 
-    <div class="birthday-content" id="birthday-content">
-        <h1 class="text-5xl font-bold mb-8 text-pink-500">HAPPY BIRTHDAY MY LOVE!</h1>
-        
-        <div class="together-text">Though We're Apart, You're Always in My Heart</div>
-        
-        <div class="photo-frame">
-            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/b94319b7-5986-49df-9a0b-cc98a714e985.png" alt="Couple photo - us smiling together with romantic sunset in background, holding hands" />
-        </div>
-        
-        <div class="long-distance">
-            Kilometers can't measure how close you are to my heart. This distance is just temporary, but my love is eternal.
-        </div>
-        
-        <div class="cake-container">
-            <div class="cake">
-                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/5861fe74-976b-44f0-b20d-482a97e77127.png" alt="Beautiful birthday cake with pink frosting, colorful sprinkles, and glowing candles">
-                <div class="candle" style="left: 50%;"></div>
-                <div class="flame" style="left: 50%;"></div>
+    <!-- ============================================
+    BOOK STAGE
+    ============================================ -->
+    <div class="book-stage" id="bookStage">
+
+        <!-- Tap hint -->
+        <div class="tap-hint" id="tapHint">Tap the book to open it</div>
+
+        <!-- Book wrapper -->
+        <div class="book-wrapper" id="bookWrapper">
+
+            <!-- Desk shadow under book -->
+            <div class="book-desk-shadow" id="bookDeskShadow"></div>
+
+            <!-- Page edges visible when closed -->
+            <div class="page-edges-closed" id="pageEdgesClosed"></div>
+
+            <!-- Spine edge -->
+            <div class="spine-edge"></div>
+
+            <!-- Pages container -->
+            <div class="pages-container" id="pagesContainer">
+                <!-- Spreads will be injected here by JS -->
             </div>
-        </div>
-        
-        <div class="message-container">
-            <p class="message">To the most beautiful soul I've ever known,</p>
-            <p class="message">Today is your day - a day filled with love, joy, and all the happiness you deserve.</p>
-            <p class="message">Even though we're miles apart, my love for you knows no distance. I'm celebrating you in my heart every moment.</p>
-            <p class="message">You've brought so much light into my life. Today, I hope this little surprise brings some sparkle to your special day.</p>
-            <p class="message">I wish I could be there to hold your hand, kiss you, and celebrate with you. But don't worry, we'll make up for all these missed moments soon!</p>
-            <p class="signature">Forever yours</p>
-        </div>
-        
-        <button id="more-messages-btn" class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded-full mt-4 transition-all duration-300">
-            Click for More Sweet Messages
-        </button>
-        
-        <div id="video-surprise" class="hidden mt-8">
-            <video controls width="500" class="rounded-lg shadow-xl mx-auto">
-                <source src="https://github.com/Rupeshpandey09/video/raw/refs/heads/main/WhatsApp%20Video%202025-08-07%20at%2023.44.09_496cde0b.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-            <p class="text-center mt-4 text-pink-300">A little video message just for you!</p>
+
+            <!-- Page turn shadow overlay -->
+            <div class="page-turn-shadow" id="pageTurnShadow"></div>
+
+            <!-- Flip page element (for animation) -->
+            <div class="flip-page" id="flipPage" style="display:none;">
+                <div class="flip-face front" id="flipFront"></div>
+                <div class="flip-face back" id="flipBack"></div>
+            </div>
+
+            <!-- Book hardcover (closed) -->
+            <div class="book-cover-closed" id="bookCoverClosed">
+                <div class="cover-face cover-front">
+                    <div class="cover-ornament"></div>
+                    <div class="cover-title">FOR YOU</div>
+                    <div class="cover-subtitle">A Little Book of Beautiful Things</div>
+                    <div class="cover-ornament"></div>
+                    <div class="cover-small-text">Written especially for you ❤️</div>
+                </div>
+                <div class="cover-face cover-back">
+                    <div class="cover-back-pattern"></div>
+                </div>
+            </div>
+
         </div>
     </div>
-    
-    <div id="created-for" class="mt-8 text-gray-400 text-sm text-center">
-        Created with love for you, my darling ❤️
-    </div>
-    
-    <audio id="birthday-audio" loop>
-        <source src="https://github.com/Rupeshpandey09/gift/raw/refs/heads/main/Happy%20Birthday%20to%20you%20%F0%9F%8E%89%F0%9F%8E%89%20%5B_RgRvHwzE4I%5D.mp3" type="audio/mpeg">
-    </audio>
-    
+
+    <!-- ============================================
+    JAVASCRIPT
+    ============================================ -->
     <script>
-        // Check if it's August 21st
-        function checkBirthday() {
-            const now = new Date();
-            const august21 = new Date(Date.UTC(now.getFullYear(), 7, 21, 0, 0, 0)); // Using UTC to avoid timezone issues
-            
-            if (now >= august21) {
-                startBirthdayCelebration();
-            } else {
-                startCountdown(august21);
+        (function() {
+            'use strict';
+
+            // ============================================
+            // === EDITABLE CONFIGURATION — CHANGE THINGS HERE ===
+            // ============================================
+
+            /**
+             * PASTE YOUR GITHUB LINK HERE
+             * This is the link that opens when the user clicks
+             * "Open the next chapter" on the final secret page.
+             */
+            const GITHUB_LINK = "https://rupeshpandey09.github.io/Birthday-Garden/";
+
+            /**
+             * BIRTHDAY DATE shown on Page 1
+             * Change this to the actual birthday date.
+             */
+            const BIRTHDAY_DATE = "August 21";
+
+            /**
+             * HER NAME (optional — used in some messages)
+             * Leave empty string "" if you don't want a name.
+             */
+            const HER_NAME = "";
+
+            /**
+             * YOUR NAME (optional — used in the letter)
+             * Leave empty string "" if you don't want to sign.
+             */
+            const MY_NAME = "";
+
+            /**
+             * ENABLE BACKGROUND MUSIC
+             * Set to true to allow soft ambient music when the
+             * user enables sound via the audio toggle.
+             * If false, only page-turn sounds will play.
+             */
+            const ENABLE_MUSIC = true;
+
+            /**
+             * VOLUME SETTINGS
+             * Adjust the page-turn and music volume (0.0 to 1.0)
+             */
+            const PAGE_TURN_VOLUME = 0.35;
+            const MUSIC_VOLUME = 0.12;
+
+            /**
+             * ═══════════════════════════════════════════════════════════════
+             *  🎵  MUSIC URL  —  Paste your audio file link right here!
+             * ═══════════════════════════════════════════════════════════════
+             *
+             *  Supported formats: MP3, WAV, OGG, M4A, etc.
+             *  (any format that works with HTML5 Audio)
+             *
+             *  Examples:
+             *    "https://example.com/music.mp3"
+             *    "https://my-server.com/song.wav"
+             *
+             *  If you leave this as "PASTE_YOUR_MUSIC_URL_HERE",
+             *  the book will use gentle synthetic tones instead.
+             */
+            const MUSIC_URL = "https://github.com/Rupeshpandey09/11/raw/refs/heads/main/Chand%20Se%20Parda%20Kijiye%20(Cover%20Song)%20%20Romantic%20Love%20Song%20%20Hindi%20Love%20Songs%20%20Ashwani%20Machal%20-%20Ashwani%20Machal.mp3";
+
+            // ============================================
+            // === LETTER CONTENT — EDIT YOUR MESSAGE HERE ===
+            // ============================================
+
+            /**
+             * PAGE 2 — "The Beginning" message
+             * Edit the text below to personalize the letter.
+             */
+            const MESSAGE_BEGINNING = [
+                "I don't know how to write the perfect words.",
+                "So I will just write what I feel.",
+                "",
+                "You are someone very special to me.",
+                "And I feel lucky that life gave me the chance to know you.",
+                "",
+                "Sometimes even a small talk with you can make my day better.",
+                "",
+                "Maybe I don't always say it properly,",
+                "but you really mean a lot to me.",
+                "",
+                "Some people make the world feel lighter just by being in it.",
+                "You are one of those people.",
+            ].join('\n');
+
+            /**
+             * PAGE 4 — "For Your Birthday" message
+             */
+            const MESSAGE_BIRTHDAY = [
+                "Today is your day.",
+                "And I hope it is as beautiful as you are.",
+                "",
+                "I wish you happiness — real happiness,",
+                "the kind that stays even on ordinary days.",
+                "",
+                "I wish you peace,",
+                "the quiet kind that fills your heart.",
+                "",
+                "I wish you success,",
+                "in everything that matters to you.",
+                "",
+                "I hope you get everything you dream about.",
+                "Because you deserve good things.",
+                "",
+                "Your happiness matters to me.",
+                "More than I can say.",
+                "",
+                "So today, and always,",
+                "please keep smiling.",
+                "",
+                "Thank you for being part of my life.",
+                "You make it better just by existing.",
+            ].join('\n');
+
+            /**
+             * PAGE 5 — Envelope message (revealed when opened)
+             */
+            const MESSAGE_ENVELOPE = [
+                "You deserve a beautiful year ahead.",
+                "",
+                "Whatever happens,",
+                "I hope you always remember one thing...",
+                "",
+                "You are special.",
+            ].join('\n');
+
+            /**
+             * PAGE 6 — "Just For You" long letter
+             */
+            const MESSAGE_LONG_LETTER = [
+                "There are some people in life who leave a mark.",
+                "Not because they are loud or bright,",
+                "but because they are simply... themselves.",
+                "",
+                "You are that kind of person.",
+                "",
+                "I don't always know how to say what I feel.",
+                "Sometimes the words get stuck somewhere inside.",
+                "But today, on your birthday, I wanted to try.",
+                "",
+                "I am happy that you exist.",
+                "Truly, deeply happy.",
+                "",
+                "Even small moments with you matter to me.",
+                "A short conversation. A shared laugh.",
+                "A quiet moment when nothing needs to be said.",
+                "",
+                "I want you to be happy.",
+                "Not just today, but every day.",
+                "",
+                "I hope you achieve your dreams.",
+                "All of them. Even the ones you keep to yourself.",
+                "",
+                "I want you to feel valued.",
+                "Because you are.",
+                "",
+                "I am grateful for the memories we share.",
+                "For every moment that made me smile.",
+                "",
+                "I may not always express myself perfectly.",
+                "But I hope you can feel what I mean.",
+                "",
+                "This birthday is about YOU.",
+                "About celebrating the amazing person you are.",
+                "",
+                "So here's to a beautiful new year of life.",
+                "A year filled with everything you wish for.",
+                "",
+                "Happy Birthday, my special person. ❤️",
+                "",
+                "Keep smiling.",
+                "Keep being you.",
+                "And never forget how special you are.",
+            ].join('\n');
+
+            /**
+             * PAGE 8 — "One Last Thing..." message
+             */
+            const MESSAGE_ONE_LAST_THING = [
+                "I made this little book for you,",
+                "but I couldn't put everything I wanted to say inside it.",
+                "",
+                "So I saved one more surprise.",
+            ].join('\n');
+
+            /**
+             * PAGE 3 — "Little Things I Love" scrapbook notes
+             */
+            const SCRAPBOOK_NOTES = [
+                "Your smile.",
+                "Your little talks.",
+                "The way you care.",
+                "Your silly moments.",
+                "The way you make ordinary days feel special.",
+                "Your kindness.",
+                "The way you listen.",
+            ];
+
+            /**
+             * PAGE 7 — "Some stories..." lines
+             */
+            const STORY_LINES = [
+                "Some stories are written in books.",
+                "Some are written in memories.",
+                "But ours is still being written.",
+            ];
+
+            // ============================================
+            // === END OF EDITABLE CONFIGURATION ===
+            // ============================================
+
+            // ============================================
+            // DOM REFERENCES
+            // ============================================
+            const bookCoverClosed = document.getElementById('bookCoverClosed');
+            const pagesContainer = document.getElementById('pagesContainer');
+            const flipPage = document.getElementById('flipPage');
+            const flipFront = document.getElementById('flipFront');
+            const flipBack = document.getElementById('flipBack');
+            const pageTurnShadow = document.getElementById('pageTurnShadow');
+            const bookWrapper = document.getElementById('bookWrapper');
+            const bookDeskShadow = document.getElementById('bookDeskShadow');
+            const pageEdgesClosed = document.getElementById('pageEdgesClosed');
+            const tapHint = document.getElementById('tapHint');
+            const dustContainer = document.getElementById('dustContainer');
+            const audioToggle = document.getElementById('audioToggle');
+            const audioIcon = document.getElementById('audioIcon');
+
+            // ============================================
+            // STATE
+            // ============================================
+            let bookOpen = false;
+            let currentSpread = 0;
+            let isTurning = false;
+            let canInteract = true;
+            let audioEnabled = false;
+            let audioContext = null;
+            let musicNodes = null;
+            let musicStarted = false;
+            let musicAudioElement = null; // for URL-based music
+
+            // Total number of spreads (0-indexed)
+            const TOTAL_SPREADS = 11; // 0 through 10
+
+            // ============================================
+            // SPREAD DATA
+            // ============================================
+            const spreads = [];
+
+            // Build spreads array
+            function buildSpreads() {
+                const namePrefix = HER_NAME ? HER_NAME + ', ' : '';
+
+                // Spread 0: "August 21" | "A very special day..."
+                spreads[0] = {
+                    left: `
+                        <div class="page-center-content">
+                            <div class="spacer"></div>
+                            <div class="handwritten handwritten-xl" style="opacity:0.7; font-size:clamp(16px,4vw,20px);">
+                                ${BIRTHDAY_DATE}
+                            </div>
+                            <div class="spacer"></div>
+                            <div class="spacer"></div>
+                        </div>
+                    `,
+                    right: `
+                        <div class="page-center-content">
+                            <div class="spacer"></div>
+                            <div class="heading-script" style="font-size:clamp(22px,5.5vw,30px);">A very special day.</div>
+                            <div class="ornament-line"></div>
+                            <div class="handwritten handwritten-md" style="opacity:0.8; line-height:1.6;">
+                                Because today is the day<br>you were born.
+                            </div>
+                            <div class="tiny-heart" style="font-size:16px; margin-top:4px;">❤</div>
+                            <div class="spacer"></div>
+                            <div class="spacer"></div>
+                        </div>
+                    `,
+                };
+
+                // Spread 1: "The Beginning"
+                spreads[1] = {
+                    left: `
+                        <div class="page-top-content">
+                            <div class="heading-script" style="margin-bottom:10px;">The Beginning</div>
+                            <div class="handwritten handwritten-sm" style="white-space:pre-line; line-height:1.55;">
+${MESSAGE_BEGINNING}
+                            </div>
+                            <div class="spacer"></div>
+                        </div>
+                    `,
+                    right: `
+                        <div class="page-center-content">
+                            <div class="spacer"></div>
+                            <div class="handwritten handwritten-lg" style="opacity:0.6; transform:rotate(-3deg);">
+                                Some things are hard to say.
+                            </div>
+                            <div class="handwritten handwritten-lg" style="opacity:0.5; transform:rotate(2deg); margin-top:10px;">
+                                So I wrote them instead.
+                            </div>
+                            <div class="spacer"></div>
+                            <div class="tiny-heart" style="font-size:14px;">❤</div>
+                            <div class="spacer"></div>
+                        </div>
+                    `,
+                };
+
+                // Spread 2: "Little Things I Love" scrapbook
+                spreads[2] = {
+                    left: `
+                        <div class="page-top-content">
+                            <div class="heading-script" style="margin-bottom:8px;">Little Things I Love</div>
+                            <div class="handwritten handwritten-sm" style="opacity:0.6; margin-bottom:6px;">
+                                About you...
+                            </div>
+                            <div class="spacer"></div>
+                            <div style="position:relative; flex-grow:1;">
+                                ${SCRAPBOOK_NOTES.slice(0, 3).map((note, i) => `
+                                    <div class="scrapbook-note" style="top:${10 + i * 22}%; left:${5 + (i * 12)}%; transform:rotate(${-4 + i * 4}deg);">
+                                        ${note}
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <div class="spacer"></div>
+                        </div>
+                    `,
+                    right: `
+                        <div class="page-top-content" style="position:relative;">
+                            <div style="position:absolute; top:5%; right:8%; font-size:12px; color:#b8a090; opacity:0.5;">❤</div>
+                            <div style="position:absolute; top:12%; left:15%; font-size:10px; color:#c0a8a0; opacity:0.4;">❤</div>
+                            <div style="position:relative; flex-grow:1; min-height:60%;">
+                                ${SCRAPBOOK_NOTES.slice(3).map((note, i) => `
+                                    <div class="scrapbook-note" style="top:${8 + i * 20}%; left:${8 + (i % 2) * 28}%; transform:rotate(${-2 + i * 3.5}deg);">
+                                        ${note}
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <div class="handwritten handwritten-sm" style="opacity:0.5; text-align:center; margin-top:6px;">
+                                ...and so much more.
+                            </div>
+                            <div class="spacer"></div>
+                        </div>
+                    `,
+                };
+
+                // Spread 3: Pressed Flower | "For Your Birthday"
+                spreads[3] = {
+                    left: `
+                        <div class="page-center-content" style="justify-content:center;">
+                            <div class="pressed-flower">
+                                <div class="flower-petal" style="top:6px; left:50%; transform:translateX(-50%) rotate(0deg);"></div>
+                                <div class="flower-petal" style="top:12px; left:38%; transform:rotate(-35deg);"></div>
+                                <div class="flower-petal" style="top:12px; right:38%; transform:rotate(35deg);"></div>
+                                <div class="flower-petal" style="top:16px; left:28%; transform:rotate(-55deg);"></div>
+                                <div class="flower-petal" style="top:16px; right:28%; transform:rotate(55deg);"></div>
+                                <div class="flower-stem"></div>
+                                <div class="flower-head"></div>
+                            </div>
+                            <div class="handwritten handwritten-sm" style="opacity:0.45; margin-top:10px; font-size:11px;">
+                                a small flower, pressed for you
+                            </div>
+                        </div>
+                    `,
+                    right: `
+                        <div class="page-top-content">
+                            <div class="heading-script" style="margin-bottom:8px;">For Your Birthday</div>
+                            <div class="handwritten handwritten-sm" style="white-space:pre-line; line-height:1.5;">
+${MESSAGE_BIRTHDAY}
+                            </div>
+                            <div class="spacer"></div>
+                        </div>
+                    `,
+                };
+
+                // Spread 4: Envelope
+                spreads[4] = {
+                    left: `
+                        <div class="page-center-content" style="justify-content:center;">
+                            <div class="envelope-container" id="envelopeContainer">
+                                <div class="envelope-body"></div>
+                                <div class="envelope-card" id="envelopeCard">
+                                    <div class="handwritten handwritten-sm" style="white-space:pre-line; line-height:1.45; font-size:clamp(11px,2.8vw,13px);">
+${MESSAGE_ENVELOPE}
+                                    </div>
+                                </div>
+                                <div class="envelope-flap" id="envelopeFlap"></div>
+                                <div class="envelope-label" id="envelopeLabel">Open Me ❤️</div>
+                            </div>
+                        </div>
+                    `,
+                    right: `
+                        <div class="page-center-content">
+                            <div class="spacer"></div>
+                            <div class="handwritten handwritten-lg" style="opacity:0.55; text-align:center; line-height:1.6;">
+                                Some things are better<br>kept small and close.
+                            </div>
+                            <div class="ornament-line"></div>
+                            <div class="handwritten handwritten-md" style="opacity:0.4;">
+                                Like this little message.
+                            </div>
+                            <div class="spacer"></div>
+                            <div class="spacer"></div>
+                        </div>
+                    `,
+                    envelopeInteractable: true,
+                };
+
+                // Spread 5: "Just For You" long letter
+                spreads[5] = {
+                    left: `
+                        <div class="page-top-content">
+                            <div class="heading-script" style="margin-bottom:8px;">Just For You</div>
+                            <div class="handwritten handwritten-sm" style="white-space:pre-line; line-height:1.42; font-size:clamp(11px,2.9vw,13.5px);">
+${MESSAGE_LONG_LETTER.split('\n').slice(0, Math.ceil(MESSAGE_LONG_LETTER.split('\n').length / 2)).join('\n')}
+                            </div>
+                            <div class="spacer"></div>
+                        </div>
+                    `,
+                    right: `
+                        <div class="page-top-content">
+                            <div class="handwritten handwritten-sm" style="white-space:pre-line; line-height:1.42; font-size:clamp(11px,2.9vw,13.5px);">
+${MESSAGE_LONG_LETTER.split('\n').slice(Math.ceil(MESSAGE_LONG_LETTER.split('\n').length / 2)).join('\n')}
+                            </div>
+                            <div class="spacer"></div>
+                        </div>
+                    `,
+                };
+
+                // Spread 6: "Some stories are written in books."
+                spreads[6] = {
+                    left: `
+                        <div class="page-center-content">
+                            <div class="spacer"></div>
+                            <div class="handwritten handwritten-sm" style="opacity:0.25;">···</div>
+                            <div class="spacer"></div>
+                        </div>
+                    `,
+                    right: `
+                        <div class="page-center-content">
+                            <div class="spacer"></div>
+                            <div class="heading-script" style="font-size:clamp(18px,4.5vw,24px); line-height:1.5;">
+                                ${STORY_LINES[0]}
+                            </div>
+                            <div class="spacer"></div>
+                            <div class="spacer"></div>
+                        </div>
+                    `,
+                };
+
+                // Spread 7: "Some are written in memories."
+                spreads[7] = {
+                    left: `
+                        <div class="page-center-content">
+                            <div class="spacer"></div>
+                            <div class="handwritten handwritten-sm" style="opacity:0.25;">···</div>
+                            <div class="spacer"></div>
+                        </div>
+                    `,
+                    right: `
+                        <div class="page-center-content">
+                            <div class="spacer"></div>
+                            <div class="heading-script" style="font-size:clamp(18px,4.5vw,24px); line-height:1.5;">
+                                ${STORY_LINES[1]}
+                            </div>
+                            <div class="spacer"></div>
+                            <div class="spacer"></div>
+                        </div>
+                    `,
+                };
+
+                // Spread 8: "But ours is still being written." + heart
+                spreads[8] = {
+                    left: `
+                        <div class="page-center-content">
+                            <div class="spacer"></div>
+                            <div class="handwritten handwritten-sm" style="opacity:0.25;">···</div>
+                            <div class="spacer"></div>
+                        </div>
+                    `,
+                    right: `
+                        <div class="page-center-content">
+                            <div class="spacer"></div>
+                            <div class="heading-script" style="font-size:clamp(20px,5vw,26px); line-height:1.5;">
+                                ${STORY_LINES[2]}
+                            </div>
+                            <div class="tiny-heart" style="font-size:20px; margin-top:8px;">❤</div>
+                            <div class="spacer"></div>
+                            <div class="spacer"></div>
+                        </div>
+                    `,
+                };
+
+                // Spread 9: "One Last Thing..."
+                spreads[9] = {
+                    left: `
+                        <div class="page-top-content">
+                            <div class="heading-script" style="margin-bottom:8px;">One Last Thing...</div>
+                            <div class="handwritten handwritten-sm" style="white-space:pre-line; line-height:1.5;">
+${MESSAGE_ONE_LAST_THING}
+                            </div>
+                            <div class="spacer"></div>
+                        </div>
+                    `,
+                    right: `
+                        <div class="page-center-content">
+                            <div class="spacer"></div>
+                            <div class="handwritten handwritten-lg" style="opacity:0.7;">There's something else...</div>
+                            <div class="spacer"></div>
+                            <button class="handwritten-btn" id="turnToFinalBtn">
+                                Turn the page →
+                            </button>
+                            <div class="spacer"></div>
+                            <div class="spacer"></div>
+                        </div>
+                    `,
+                };
+
+                // Spread 10: Final note + GitHub
+                spreads[10] = {
+                    left: `
+                        <div class="page-center-content">
+                            <div class="spacer"></div>
+                            <div class="handwritten handwritten-md" style="opacity:0.75; text-align:center; line-height:1.5;">
+                                Okay...<br>This is the last one.<br>Promise. ❤️
+                            </div>
+                            <div class="spacer"></div>
+                            <div class="spacer"></div>
+                        </div>
+                    `,
+                    right: `
+                        <div class="page-center-content">
+                            <div class="spacer"></div>
+                            <div class="handwritten handwritten-md" style="opacity:0.6; margin-bottom:12px;">
+                                One more little thing...
+                            </div>
+                            <button class="github-btn" id="githubBtn">
+                                <span class="btn-icon">📂</span> Open the next chapter
+                            </button>
+                            <div class="handwritten handwritten-sm" style="opacity:0.4; margin-top:10px; font-size:10px;">
+                                a small secret, hidden inside
+                            </div>
+                            <div class="spacer"></div>
+                            <div class="spacer"></div>
+                        </div>
+                    `,
+                };
             }
-        }
-        
-        // Countdown to August 21st
-        function startCountdown(targetDate) {
-            const countdownElement = document.getElementById('countdown-timer');
-            
-            const interval = setInterval(() => {
-                const now = new Date();
-                // Ensure we're comparing times correctly across timezones
-                const nowUTC = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate(), 
-                                    now.getHours(), now.getMinutes(), now.getSeconds());
-                const distance = targetDate - nowUTC;
-                
-                if (distance <= 0) {
-                    clearInterval(interval);
-                    startBirthdayCelebration();
+
+            // ============================================
+            // INITIALIZE SPREADS
+            // ============================================
+            buildSpreads();
+
+            // Render all spreads into the pages container
+            function renderAllSpreads() {
+                pagesContainer.innerHTML = '';
+                spreads.forEach((spread, index) => {
+                    const spreadDiv = document.createElement('div');
+                    spreadDiv.className = 'spread';
+                    spreadDiv.dataset.spreadIndex = index;
+                    spreadDiv.innerHTML = `
+                        <div class="page-left">${spread.left}</div>
+                        <div class="page-right">${spread.right}</div>
+                    `;
+                    pagesContainer.appendChild(spreadDiv);
+                });
+
+                // Add click handlers for interactive elements after rendering
+                setupInteractiveElements();
+            }
+
+            // ============================================
+            // SETUP INTERACTIVE ELEMENTS
+            // ============================================
+            function setupInteractiveElements() {
+                // Envelope
+                const envelopeContainer = document.getElementById('envelopeContainer');
+                const envelopeFlap = document.getElementById('envelopeFlap');
+                const envelopeCard = document.getElementById('envelopeCard');
+                const envelopeLabel = document.getElementById('envelopeLabel');
+
+                if (envelopeContainer && envelopeFlap && envelopeCard && envelopeLabel) {
+                    envelopeContainer.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        if (envelopeFlap.classList.contains('open')) return;
+                        envelopeFlap.classList.add('open');
+                        envelopeCard.classList.add('revealed');
+                        envelopeLabel.classList.add('hidden');
+                        playPageTurnSound(0.3);
+                    });
+                }
+
+                // "Turn the page →" button
+                const turnToFinalBtn = document.getElementById('turnToFinalBtn');
+                if (turnToFinalBtn) {
+                    turnToFinalBtn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        if (isTurning || !bookOpen) return;
+                        turnPageForward();
+                    });
+                }
+
+                // GitHub button
+                const githubBtn = document.getElementById('githubBtn');
+                if (githubBtn) {
+                    githubBtn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        if (GITHUB_LINK && GITHUB_LINK !== 'PASTE_YOUR_GITHUB_LINK_HERE') {
+                            window.open(GITHUB_LINK, '_blank');
+                        } else {
+                            alert('🎁 Surprise link coming soon!\n\nPaste your GitHub link in the GITHUB_LINK variable at the top of the JavaScript.');
+                        }
+                    });
+                }
+            }
+
+            // ============================================
+            // SHOW SPREAD
+            // ============================================
+            function showSpread(index) {
+                const allSpreads = document.querySelectorAll('.spread');
+                allSpreads.forEach((spread, i) => {
+                    spread.classList.remove('active', 'underneath');
+                    if (i === index) {
+                        spread.classList.add('active');
+                    } else if (i === index + 1) {
+                        spread.classList.add('underneath');
+                    }
+                });
+                currentSpread = index;
+
+                // Re-attach event listeners for any dynamic content in this spread
+                if (index === 4) {
+                    setupInteractiveElements();
+                }
+                if (index === 9) {
+                    const btn = document.getElementById('turnToFinalBtn');
+                    if (btn) {
+                        btn.replaceWith(btn.cloneNode(true));
+                        document.getElementById('turnToFinalBtn').addEventListener('click', function(e) {
+                            e.stopPropagation();
+                            if (!isTurning && bookOpen) turnPageForward();
+                        });
+                    }
+                }
+                if (index === 10) {
+                    const btn = document.getElementById('githubBtn');
+                    if (btn) {
+                        btn.replaceWith(btn.cloneNode(true));
+                        document.getElementById('githubBtn').addEventListener('click', function(e) {
+                            e.stopPropagation();
+                            if (GITHUB_LINK && GITHUB_LINK !== 'PASTE_YOUR_GITHUB_LINK_HERE') {
+                                window.open(GITHUB_LINK, '_blank');
+                            } else {
+                                alert(
+                                    '🎁 Surprise link coming soon!\n\nPaste your GitHub link in the GITHUB_LINK variable at the top of the JavaScript.'
+                                    );
+                            }
+                        });
+                    }
+                }
+            }
+
+            // ============================================
+            // COVER OPENING
+            // ============================================
+            function openBook() {
+                if (bookOpen || isTurning) return;
+                isTurning = true;
+                canInteract = false;
+
+                tapHint.classList.add('hidden');
+                bookCoverClosed.classList.add('opening');
+                pageEdgesClosed.style.opacity = '0';
+                pageEdgesClosed.style.transition = 'opacity 0.5s ease 0.2s';
+
+                // Reveal pages after cover starts opening
+                setTimeout(() => {
+                    pagesContainer.classList.add('visible');
+                    showSpread(0);
+                }, 350);
+
+                // Complete opening
+                setTimeout(() => {
+                    bookOpen = true;
+                    isTurning = false;
+                    canInteract = true;
+                    bookCoverClosed.style.display = 'none';
+                    playPageTurnSound(0.25);
+                }, 1100);
+            }
+
+            // ============================================
+            // PAGE TURNING — FORWARD (right to left)
+            // ============================================
+            function turnPageForward() {
+                if (isTurning || !bookOpen) return;
+                if (currentSpread >= TOTAL_SPREADS - 1) return;
+
+                isTurning = true;
+                canInteract = false;
+
+                const fromSpread = currentSpread;
+                const toSpread = fromSpread + 1;
+                const fromData = spreads[fromSpread];
+                const toData = spreads[toSpread];
+
+                // Prepare flip page
+                flipPage.style.display = 'block';
+                flipPage.style.transform = 'rotateY(0deg)';
+                flipPage.style.transition = 'none';
+                flipFront.innerHTML =
+                    `<div class="page-right" style="width:100%;height:100%;padding:22px 18px;border-radius:2px;">${fromData.right}</div>`;
+                flipBack.innerHTML =
+                    `<div class="page-left" style="width:100%;height:100%;padding:22px 18px;border-radius:2px;">${toData.left}</div>`;
+                flipPage.classList.remove('forward', 'backward');
+
+                // Force reflow
+                void flipPage.offsetWidth;
+
+                // Enable transition and animate
+                flipPage.style.transition = 'transform ' + getComputedStyle(document.documentElement).getPropertyValue(
+                    '--turn-duration').trim() + ' ' + getComputedStyle(document.documentElement).getPropertyValue(
+                    '--turn-ease').trim();
+                flipPage.style.transform = 'rotateY(-178deg)';
+                flipPage.classList.add('forward');
+
+                // Show shadow
+                pageTurnShadow.classList.add('active');
+                pageTurnShadow.style.opacity = '1';
+
+                // Play sound
+                playPageTurnSound(PAGE_TURN_VOLUME);
+
+                // Also show the next spread's right page underneath
+                const allSpreads = document.querySelectorAll('.spread');
+                allSpreads.forEach((spread, i) => {
+                    if (i === toSpread) {
+                        spread.classList.add('underneath');
+                        spread.classList.remove('active');
+                    } else if (i === fromSpread) {
+                        spread.classList.remove('underneath');
+                        spread.classList.add('active');
+                    }
+                });
+
+                // After animation
+                const duration = 750; // matches CSS variable
+                setTimeout(() => {
+                    // Move to the next spread
+                    showSpread(toSpread);
+
+                    // Reset flip page
+                    flipPage.style.display = 'none';
+                    flipPage.classList.remove('forward', 'backward');
+                    pageTurnShadow.classList.remove('active');
+                    pageTurnShadow.style.opacity = '0';
+
+                    isTurning = false;
+                    canInteract = true;
+                }, duration + 50);
+            }
+
+            // ============================================
+            // PAGE TURNING — BACKWARD (left to right)
+            // ============================================
+            function turnPageBackward() {
+                if (isTurning || !bookOpen) return;
+                if (currentSpread <= 0) return;
+
+                isTurning = true;
+                canInteract = false;
+
+                const fromSpread = currentSpread;
+                const toSpread = fromSpread - 1;
+                const fromData = spreads[fromSpread];
+                const toData = spreads[toSpread];
+
+                // Prepare flip page for backward turn
+                flipPage.style.display = 'block';
+                flipPage.style.transform = 'rotateY(-178deg)';
+                flipPage.style.transition = 'none';
+                flipBack.innerHTML =
+                    `<div class="page-left" style="width:100%;height:100%;padding:22px 18px;border-radius:2px;">${fromData.left}</div>`;
+                flipFront.innerHTML =
+                    `<div class="page-right" style="width:100%;height:100%;padding:22px 18px;border-radius:2px;">${toData.right}</div>`;
+                flipPage.classList.remove('forward', 'backward');
+
+                // Force reflow
+                void flipPage.offsetWidth;
+
+                // Enable transition and animate backward
+                flipPage.style.transition = 'transform ' + getComputedStyle(document.documentElement).getPropertyValue(
+                    '--turn-duration').trim() + ' ' + getComputedStyle(document.documentElement).getPropertyValue(
+                    '--turn-ease').trim();
+                flipPage.style.transform = 'rotateY(2deg)';
+                flipPage.classList.add('backward');
+
+                // Show shadow
+                pageTurnShadow.classList.add('active');
+                pageTurnShadow.style.opacity = '1';
+
+                // Play sound
+                playPageTurnSound(PAGE_TURN_VOLUME * 0.85);
+
+                // Show previous spread's right page underneath
+                const allSpreads = document.querySelectorAll('.spread');
+                allSpreads.forEach((spread, i) => {
+                    if (i === toSpread) {
+                        spread.classList.add('underneath');
+                        spread.classList.remove('active');
+                    } else if (i === fromSpread) {
+                        spread.classList.remove('underneath');
+                        spread.classList.add('active');
+                    }
+                });
+
+                const duration = 750;
+                setTimeout(() => {
+                    showSpread(toSpread);
+                    flipPage.style.display = 'none';
+                    flipPage.classList.remove('forward', 'backward');
+                    pageTurnShadow.classList.remove('active');
+                    pageTurnShadow.style.opacity = '0';
+
+                    isTurning = false;
+                    canInteract = true;
+                }, duration + 50);
+            }
+
+            // ============================================
+            // TOUCH HANDLING
+            // ============================================
+            let touchStartX = 0;
+            let touchStartY = 0;
+            let touchStartTime = 0;
+            let isSwiping = false;
+
+            function handleTouchStart(e) {
+                if (!bookOpen || isTurning) return;
+                const touch = e.touches[0];
+                touchStartX = touch.clientX;
+                touchStartY = touch.clientY;
+                touchStartTime = Date.now();
+                isSwiping = false;
+            }
+
+            function handleTouchEnd(e) {
+                if (!bookOpen || isTurning) return;
+                const touch = e.changedTouches[0];
+                const deltaX = touch.clientX - touchStartX;
+                const deltaY = touch.clientY - touchStartY;
+                const deltaTime = Date.now() - touchStartTime;
+
+                const absDeltaX = Math.abs(deltaX);
+                const absDeltaY = Math.abs(deltaY);
+
+                const stageRect = document.getElementById('bookStage').getBoundingClientRect();
+                const centerX = stageRect.left + stageRect.width / 2;
+
+                if (absDeltaX < 20 && absDeltaY < 20 && deltaTime < 400) {
+                    // TAP
+                    if (touch.clientX > centerX) {
+                        turnPageForward();
+                    } else {
+                        turnPageBackward();
+                    }
+                } else if (absDeltaX > 40 && absDeltaX > absDeltaY * 1.5) {
+                    if (deltaX < 0) {
+                        turnPageForward();
+                    } else {
+                        turnPageBackward();
+                    }
+                }
+            }
+
+            // ============================================
+            // CLICK FALLBACK (for desktop testing)
+            // ============================================
+            function handleClick(e) {
+                if (!bookOpen || isTurning) return;
+                if (e.target.closest('.envelope-container') ||
+                    e.target.closest('.handwritten-btn') ||
+                    e.target.closest('.github-btn') ||
+                    e.target.closest('.audio-toggle')) {
                     return;
                 }
-                
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                
-                const countdownStr = 
-                    `<span class="time-block">${days.toString().padStart(2, '0')}</span> days : 
-                     <span class="time-block">${hours.toString().padStart(2, '0')}</span> : 
-                     <span class="time-block">${minutes.toString().padStart(2, '0')}</span> : 
-                     <span class="time-block">${seconds.toString().padStart(2, '0')}</span>`;
-                
-                countdownElement.innerHTML = countdownStr;
-            }, 1000);
-        }
-        
-        // Birthday celebration begins
-        function startBirthdayCelebration() {
-            document.getElementById('countdown').style.display = 'none';
-            document.getElementById('birthday-content').style.display = 'flex';
-            
-            // Play birthday music
-            const audio = document.getElementById('birthday-audio');
-            audio.play().catch(e => console.log("Auto-play was prevented: ", e));
-            
-            // Create fireworks
-            setInterval(createFirework, 300);
-            
-            // Confetti explosion on start
-            setTimeout(() => {
-                for(let i = 0; i < 100; i++) {
-                    createConfetti();
+                const stageRect = document.getElementById('bookStage').getBoundingClientRect();
+                const centerX = stageRect.left + stageRect.width / 2;
+                if (e.clientX > centerX) {
+                    turnPageForward();
+                } else {
+                    turnPageBackward();
                 }
-            }, 1000);
-            
-            // Floating hearts
-            setInterval(createHeart, 800);
-            
-            // More messages button
-            document.getElementById('more-messages-btn').addEventListener('click', showMoreMessages);
-        }
-        
-        // Create firework animation
-        function createFirework() {
-            const firework = document.createElement('div');
-            firework.classList.add('firework');
-            
-            // Random position
-            const x = Math.random() * window.innerWidth;
-            const y = Math.random() * window.innerHeight * 0.8;
-            
-            firework.style.left = `${x}px`;
-            firework.style.top = `${y}px`;
-            
-            // Random movement
-            const angle = Math.random() * Math.PI * 2;
-            const distance = 50 + Math.random() * 150;
-            const xDist = Math.cos(angle) * distance;
-            const yDist = Math.sin(angle) * distance;
-            
-            firework.style.setProperty('--x', `${xDist}px`);
-            firework.style.setProperty('--y', `${yDist}px`);
-            
-            // Random color
-            const colors = ['#ff0000', '#ff69b4', '#ff8a00', '#ffff00', '#00ff00', '#00ffff', '#0000ff', '#8000ff'];
-            firework.style.boxShadow = `0 0 10px 5px ${colors[Math.floor(Math.random() * colors.length)]}`;
-            
-            document.body.appendChild(firework);
-            
-            // Remove after animation completes
-            setTimeout(() => {
-                firework.remove();
-            }, 2000);
-        }
-        
-        // Create floating hearts
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.classList.add('heart');
-            heart.innerHTML = '❤️';
-            
-            // Random start position
-            const startX = Math.random() * window.innerWidth;
-            heart.style.left = `${startX}px`;
-            heart.style.bottom = '0';
-            
-            // Random size and animation duration
-            const size = 1 + Math.random() * 3;
-            const duration = 3 + Math.random() * 4;
-            
-            heart.style.fontSize = `${size}rem`;
-            heart.style.animationDuration = `${duration}s`;
-            
-            document.body.appendChild(heart);
-            
-            // Remove after animation completes
-            setTimeout(() => {
-                heart.remove();
-            }, duration * 1000);
-        }
-        
-        // Create colorful confetti
-        function createConfetti() {
-            const confetti = document.createElement('div');
-            confetti.classList.add('confetti');
-            
-            // Random shapes and colors
-            const shapes = ['circle', 'square', 'triangle'];
-            const colors = ['#ff69b4', '#ff0000', '#00ffff', '#ffff00', '#00ff00', '#ff8a00'];
-            
-            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            confetti.style.width = `${Math.random() * 10 + 5}px`;
-            confetti.style.height = `${Math.random() * 10 + 5}px`;
-            confetti.style.borderRadius = shapes[Math.floor(Math.random() * shapes.length)] === 'circle' ? '50%' : '0';
-            confetti.style.border = shapes[Math.floor(Math.random() * shapes.length)] === 'triangle' ? '5px solid transparent' : 'none';
-            confetti.style.borderBottom = shapes[Math.floor(Math.random() * shapes.length)] === 'triangle' ? `10px solid ${colors[Math.floor(Math.random() * colors.length)]}` : 'none';
-            
-            // Random position and animation
-            confetti.style.left = `${Math.random() * 100}vw`;
-            confetti.style.top = '-10px';
-            
-            document.body.appendChild(confetti);
-            
-            // Falling animation
-            const duration = Math.random() * 3 + 2;
-            confetti.style.animation = `fall ${duration}s linear forwards`;
-            
-            // Remove after animation
-            setTimeout(() => {
-                confetti.remove();
-            }, duration * 1000);
-        }
-        
-        // Show additional messages
-        const additionalMessages = [
-            "I can't wait for the day when we won't have to celebrate birthdays apart anymore. Every second with you is precious to me.",
-            "You make every day brighter, and today I want to make sure your day is the brightest of all.",
-            "I keep all your sweet messages saved and read them whenever I miss you. They're like little pieces of your heart with me.",
-            "No matter how far apart we are, I always feel connected to you. Your love is my constant companion.",
-            "Making this surprise for you brought me so much joy. I hope it makes you smile as much as you make me smile every day."
-        ];
-        
-        function showMoreMessages() {
-            const messageContainer = document.querySelector('.message-container');
-            const randomMessage = additionalMessages[Math.floor(Math.random() * additionalMessages.length)];
-            
-            const newMessage = document.createElement('p');
-            newMessage.classList.add('message');
-            newMessage.textContent = randomMessage;
-            
-            messageContainer.insertBefore(newMessage, document.querySelector('.signature'));
-            
-            // After 3 messages, show video surprise
-            const currentMessages = document.querySelectorAll('.message').length;
-            if(currentMessages >= 5) {
-                document.getElementById('video-surprise').classList.remove('hidden');
             }
-        }
-        
-        // Start checking for birthday
-        window.addEventListener('DOMContentLoaded', function() {
-            setTimeout(function() {
-                document.getElementById('countdown').style.display = 'block';
-                checkBirthday();
-            }, 2000); // Match the 2s fadeOut duration
-        });
+
+            // ============================================
+            // AUDIO SYSTEM (Web Audio API + HTML5 Audio)
+            // ============================================
+            function initAudio() {
+                if (audioContext) return;
+                try {
+                    audioContext = new(window.AudioContext || window.webkitAudioContext)();
+                } catch (e) {
+                    console.warn('Web Audio API not available');
+                    audioContext = null;
+                }
+            }
+
+            function playPageTurnSound(volume) {
+                if (!audioEnabled || !audioContext) return;
+                try {
+                    const bufferSize = audioContext.sampleRate * 0.12;
+                    const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
+                    const data = buffer.getChannelData(0);
+                    for (let i = 0; i < bufferSize; i++) {
+                        const t = i / bufferSize;
+                        const envelope = Math.sin(Math.PI * t);
+                        data[i] = (Math.random() * 2 - 1) * envelope * 0.6;
+                    }
+                    const source = audioContext.createBufferSource();
+                    source.buffer = buffer;
+                    const filter = audioContext.createBiquadFilter();
+                    filter.type = 'bandpass';
+                    filter.frequency.setValueAtTime(1800, audioContext.currentTime);
+                    filter.Q.value = 0.7;
+                    const gain = audioContext.createGain();
+                    gain.gain.setValueAtTime(volume * 0.8, audioContext.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.12);
+                    source.connect(filter);
+                    filter.connect(gain);
+                    gain.connect(audioContext.destination);
+                    source.start(0);
+                    source.stop(audioContext.currentTime + 0.13);
+                } catch (e) { /* silent fail */ }
+            }
+
+            // ─── MUSIC: URL-based or synthetic fallback ───
+            function startMusic() {
+                if (!audioEnabled || musicStarted) return;
+                if (!ENABLE_MUSIC) return;
+
+                // If the user provided a real music URL, use HTML5 Audio
+                if (MUSIC_URL && MUSIC_URL !== 'PASTE_YOUR_MUSIC_URL_HERE') {
+                    try {
+                        musicAudioElement = new Audio(MUSIC_URL);
+                        musicAudioElement.loop = true;
+                        musicAudioElement.volume = MUSIC_VOLUME;
+                        musicAudioElement.play().then(() => {
+                            musicStarted = true;
+                            console.log('🎵 Playing music from URL:', MUSIC_URL);
+                        }).catch((err) => {
+                            console.warn('Could not play music from URL, falling back to synthetic tones:', err);
+                            musicAudioElement = null;
+                            startSyntheticMusic();
+                        });
+                        return;
+                    } catch (e) {
+                        console.warn('Error creating Audio element for URL, falling back to synthetic:', e);
+                        musicAudioElement = null;
+                    }
+                }
+
+                // Fallback: synthetic ambient tones
+                startSyntheticMusic();
+            }
+
+            function startSyntheticMusic() {
+                if (!audioContext || musicStarted) return;
+                try {
+                    musicStarted = true;
+                    const masterGain = audioContext.createGain();
+                    masterGain.gain.setValueAtTime(0.0001, audioContext.currentTime);
+                    masterGain.gain.exponentialRampToValueAtTime(MUSIC_VOLUME, audioContext.currentTime + 2);
+                    masterGain.connect(audioContext.destination);
+
+                    const osc1 = audioContext.createOscillator();
+                    osc1.type = 'sine';
+                    osc1.frequency.setValueAtTime(174, audioContext.currentTime);
+                    const osc1Gain = audioContext.createGain();
+                    osc1Gain.gain.setValueAtTime(0.3, audioContext.currentTime);
+                    osc1.connect(osc1Gain);
+                    osc1Gain.connect(masterGain);
+                    osc1.start();
+
+                    const osc2 = audioContext.createOscillator();
+                    osc2.type = 'sine';
+                    osc2.frequency.setValueAtTime(220, audioContext.currentTime);
+                    const osc2Gain = audioContext.createGain();
+                    osc2Gain.gain.setValueAtTime(0.15, audioContext.currentTime);
+                    osc2.connect(osc2Gain);
+                    osc2Gain.connect(masterGain);
+                    osc2.start();
+
+                    const osc3 = audioContext.createOscillator();
+                    osc3.type = 'sine';
+                    osc3.frequency.setValueAtTime(261, audioContext.currentTime);
+                    const osc3Gain = audioContext.createGain();
+                    osc3Gain.gain.setValueAtTime(0.06, audioContext.currentTime);
+                    osc3.connect(osc3Gain);
+                    osc3Gain.connect(masterGain);
+                    osc3.start();
+
+                    musicNodes = { masterGain, osc1, osc2, osc3, osc1Gain, osc2Gain, osc3Gain };
+                    console.log('🎵 Playing synthetic ambient music');
+                } catch (e) {
+                    musicStarted = false;
+                }
+            }
+
+            function stopMusic() {
+                // Stop URL-based audio
+                if (musicAudioElement) {
+                    try {
+                        musicAudioElement.pause();
+                        musicAudioElement.currentTime = 0;
+                        musicAudioElement = null;
+                    } catch (e) { /* ignore */ }
+                }
+                // Stop synthetic audio
+                if (musicNodes) {
+                    try {
+                        const { masterGain, osc1, osc2, osc3, osc1Gain, osc2Gain, osc3Gain } = musicNodes;
+                        masterGain.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + 0.5);
+                        setTimeout(() => {
+                            try {
+                                osc1.stop();
+                                osc2.stop();
+                                osc3.stop();
+                                osc1Gain.disconnect();
+                                osc2Gain.disconnect();
+                                osc3Gain.disconnect();
+                                masterGain.disconnect();
+                            } catch (e) {}
+                            musicNodes = null;
+                            musicStarted = false;
+                        }, 600);
+                    } catch (e) {
+                        musicNodes = null;
+                        musicStarted = false;
+                    }
+                }
+                musicStarted = false;
+            }
+
+            // Audio toggle
+            audioToggle.addEventListener('click', function() {
+                initAudio();
+                if (!audioContext) return;
+                audioEnabled = !audioEnabled;
+                audioIcon.textContent = audioEnabled ? '🔊' : '🔇';
+                if (audioEnabled) {
+                    audioContext.resume().then(() => {
+                        startMusic();
+                    }).catch(() => {});
+                } else {
+                    stopMusic();
+                }
+            });
+
+            // ============================================
+            // DUST PARTICLE GENERATION
+            // ============================================
+            function generateDust() {
+                // Dust particles are already in the HTML via CSS
+                // This function is kept for compatibility
+            }
+
+            // ============================================
+            // EVENT LISTENERS
+            // ============================================
+            bookCoverClosed.addEventListener('click', function() {
+                openBook();
+            });
+
+            document.addEventListener('touchstart', handleTouchStart, { passive: true });
+            document.addEventListener('touchend', handleTouchEnd, { passive: true });
+            document.addEventListener('click', handleClick);
+
+            document.addEventListener('dblclick', function(e) {
+                e.preventDefault();
+            }, { passive: false });
+
+            // ============================================
+            // INITIALIZATION
+            // ============================================
+            function init() {
+                renderAllSpreads();
+                showSpread(0);
+                pagesContainer.classList.remove('visible');
+
+                bookOpen = false;
+                currentSpread = 0;
+                isTurning = false;
+
+                bookCoverClosed.style.display = 'block';
+                pageEdgesClosed.style.opacity = '0.85';
+                tapHint.classList.remove('hidden');
+
+                generateDust();
+
+                console.log('📖 "For You" — A Little Book of Beautiful Things');
+                console.log('✨ Tap the book to open it.');
+                console.log('🔗 GitHub link:', GITHUB_LINK === 'PASTE_YOUR_GITHUB_LINK_HERE' ? 'NOT SET (edit GITHUB_LINK in JS)' :
+                    GITHUB_LINK);
+                console.log('🎵 Music URL:', MUSIC_URL === 'PASTE_YOUR_MUSIC_URL_HERE' ? 'NOT SET (using synthetic tones)' :
+                    MUSIC_URL);
+            }
+
+            function handleResize() {
+                // The book is centered via flexbox, no manual adjustment needed
+            }
+
+            window.addEventListener('resize', handleResize);
+            window.addEventListener('orientationchange', handleResize);
+
+            init();
+
+            // Expose for debugging
+            window.__bookApp = {
+                openBook,
+                turnPageForward,
+                turnPageBackward,
+                showSpread,
+                currentSpread: () => currentSpread,
+                bookOpen: () => bookOpen,
+                GITHUB_LINK,
+                MUSIC_URL,
+            };
+
+        })();
     </script>
 </body>
 </html>
