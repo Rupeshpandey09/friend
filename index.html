@@ -7,22 +7,12 @@
 <title>The Chemistry of Us</title>
 <meta name="description" content="A little universe, made only for you.">
 
-<!-- Fonts (graceful fallback is defined in CSS if these fail to load) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
 
 <style>
-/* ==========================================================================
-   THE CHEMISTRY OF US
-   A single-file love letter.
-   --------------------------------------------------------------------------
-   Everything visual is controlled by the CSS variables below.
-   Change them to re-skin the whole experience.
-   ========================================================================== */
-
 :root{
-  /* ---------- COLOURS ---------- */
   --bg:          #04050a;
   --midnight:    #0a1026;
   --burgundy:    #2b0a18;
@@ -34,15 +24,12 @@
   --glass:       rgba(255,255,255,.045);
   --glass-brd:   rgba(255,255,255,.10);
 
-  /* ---------- TYPE ---------- */
   --serif: 'Cormorant Garamond', 'Iowan Old Style', 'Palatino Linotype', Georgia, 'Times New Roman', serif;
   --sans:  'Jost', 'Helvetica Neue', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
-  /* ---------- LAYOUT ---------- */
   --maxw: 760px;
   --radius: 22px;
 
-  /* ---------- GLOW ---------- */
   --glow-soft: 0 0 28px rgba(255,120,170,.30);
   --glow-strong: 0 0 60px rgba(255,120,170,.45);
 }
@@ -68,7 +55,6 @@ body{
 
 body.locked{ overflow:hidden; height:100vh; }
 
-/* Dreamy layered background ------------------------------------------------ */
 body::before{
   content:'';
   position: fixed;
@@ -81,7 +67,6 @@ body::before{
     radial-gradient(110vmax 110vmax at 50% 118%, rgba(78,12,50,.55), transparent 66%);
 }
 
-/* Star / particle canvas --------------------------------------------------- */
 #stars{
   position: fixed;
   inset: 0;
@@ -90,7 +75,6 @@ body::before{
   display: block;
 }
 
-/* Floating chemistry doodles ---------------------------------------------- */
 .floaters{
   position: fixed;
   inset: 0;
@@ -132,9 +116,6 @@ body::before{
   66%    { transform: translate3d(-12px,14px,0) rotate(-5deg); }
 }
 
-/* ==========================================================================
-   INTRO
-   ========================================================================== */
 .intro{
   position: fixed;
   inset: 0;
@@ -247,9 +228,6 @@ body::before{
   60%    { transform: scale(1); }
 }
 
-/* ==========================================================================
-   EXPERIENCE SHELL
-   ========================================================================== */
 #experience{
   position: relative;
   z-index: 2;
@@ -264,7 +242,6 @@ body::before{
   padding: clamp(4.5rem, 13vh, 9rem) 1.4rem;
 }
 
-/* Shared reveal animation -------------------------------------------------- */
 .reveal,
 .reaction-caption{
   opacity: 0;
@@ -281,9 +258,6 @@ body::before{
   filter: blur(0);
 }
 
-/* ==========================================================================
-   HERO
-   ========================================================================== */
 .hero{
   min-height: 100svh;
   display: flex;
@@ -371,9 +345,6 @@ body::before{
   50%    { opacity:1;   transform: scaleY(1);  transform-origin: top; }
 }
 
-/* ==========================================================================
-   LETTER
-   ========================================================================== */
 .letter-head{
   text-align: center;
   margin-bottom: 3.4rem;
@@ -455,9 +426,6 @@ body::before{
 }
 .letter-card.closing::before{ display:none; }
 
-/* ==========================================================================
-   REACTION SECTION
-   ========================================================================== */
 .reaction{ text-align: center; }
 
 .stage{
@@ -519,7 +487,6 @@ body::before{
 .stage.bonded .atom-me { transform: translate(-50%,-50%) translateX(-44px); }
 .stage.bonded .atom-you{ transform: translate(-50%,-50%) translateX( 44px); }
 
-/* the bond itself */
 .bond{
   position: absolute;
   top: 50%;
@@ -542,7 +509,6 @@ body::before{
   transform: translate(-50%,-50%) scaleX(1);
 }
 
-/* energy burst ring */
 .burst{
   position: absolute;
   top: 50%;
@@ -618,9 +584,6 @@ body::before{
   border-color: rgba(255,160,195,.45);
 }
 
-/* ==========================================================================
-   QUOTE SECTION
-   ========================================================================== */
 .quote{
   text-align: center;
   padding-top: clamp(5rem, 16vh, 11rem);
@@ -668,9 +631,6 @@ body::before{
   animation: beat 2.6s ease-in-out infinite;
 }
 
-/* ==========================================================================
-   FINALE
-   ========================================================================== */
 .finale{
   text-align: center;
   padding-bottom: clamp(6rem, 18vh, 12rem);
@@ -733,9 +693,6 @@ body::before{
   letter-spacing: .03em;
 }
 
-/* ==========================================================================
-   MUSIC PLAYER
-   ========================================================================== */
 .music-player{
   position: fixed;
   right: 1rem;
@@ -821,9 +778,6 @@ body::before{
   50%    { height: 15px; }
 }
 
-/* ==========================================================================
-   RESPONSIVE
-   ========================================================================== */
 @media (max-width: 520px){
   .atom{ width: 66px; height: 66px; font-size: .55rem; letter-spacing: .16em; }
   .atom-me { transform: translate(-50%,-50%) translateX(-84px); }
@@ -842,7 +796,6 @@ body::before{
   html{ scroll-behavior:auto; }
 }
 
-/* Subtle custom scrollbar (desktop only) */
 @media (min-width: 900px){
   ::-webkit-scrollbar{ width: 9px; }
   ::-webkit-scrollbar-track{ background: #05060c; }
@@ -858,7 +811,6 @@ body::before{
 
 <body class="locked">
 
-<!-- ===================== BACKGROUND LAYERS ===================== -->
 <canvas id="stars" aria-hidden="true"></canvas>
 
 <div class="floaters" aria-hidden="true">
@@ -919,7 +871,6 @@ body::before{
   <div class="floater formula f8">H₂O</div>
 </div>
 
-<!-- ===================== INTRO ===================== -->
 <div class="intro" id="intro">
   <div class="intro-inner">
     <p class="intro-line" data-text="Maybe love cannot be explained by chemistry..."></p>
@@ -931,10 +882,8 @@ body::before{
   </div>
 </div>
 
-<!-- ===================== MAIN EXPERIENCE ===================== -->
 <main id="experience" aria-hidden="true">
 
-  <!-- ---------- HERO ---------- -->
   <section class="hero">
     <p class="kicker reveal" data-delay="200">A private little universe</p>
 
@@ -955,7 +904,6 @@ body::before{
     </div>
   </section>
 
-  <!-- ---------- LETTER ---------- -->
   <section class="section letter" id="letter">
 
     <header class="letter-head">
@@ -1029,7 +977,6 @@ body::before{
 
   </section>
 
-  <!-- ---------- OUR REACTION ---------- -->
   <section class="section reaction" id="reaction">
 
     <p class="kicker reveal">interactive · just for us</p>
@@ -1057,7 +1004,6 @@ body::before{
 
   </section>
 
-  <!-- ---------- QUOTE ---------- -->
   <section class="section quote">
 
     <div class="quote-mark reveal">“</div>
@@ -1076,7 +1022,6 @@ body::before{
 
   </section>
 
-  <!-- ---------- FINALE ---------- -->
   <section class="section finale">
 
     <div class="finale-lines">
@@ -1106,7 +1051,6 @@ body::before{
 
 </main>
 
-<!-- ===================== MUSIC PLAYER ===================== -->
 <div class="music-player hidden" id="musicPlayer" role="button" tabindex="0"
      aria-label="Toggle our song" aria-pressed="false">
   <span class="music-icon" id="musicIcon">♪</span>
@@ -1121,32 +1065,21 @@ body::before{
 (function () {
   'use strict';
 
-  /* =======================================================================
-     🎵  MUSIC — PASTE YOUR SONG LINK HERE  🎵
-     -----------------------------------------------------------------------
-     Replace the value below with your audio file URL.
-     Examples:
-        const SONG_URL = "our-song.mp3";
-        const SONG_URL = "music/our-song.mp3";
-        const SONG_URL = "https://example.com/our-song.mp3";
-     Nothing else in this file needs to change.
-     ======================================================================= */
-  const SONG_URL = "https://github.com/Rupeshpandey09/11/raw/refs/heads/main/Whatsapp%20Status%20__%20Ek%20Din%20Aap%20Yun%20Humko%20Mil%20%F0%9F%91%AB%20Jayenge%20%5B38knBDM6iR0%5D.mp3";
-  /* ======================================================================= */
-
-
-  /* =======================================================================
-     0. TINY HELPERS
-     ======================================================================= */
   const $  = (sel, ctx) => (ctx || document).querySelector(sel);
   const $$ = (sel, ctx) => Array.prototype.slice.call((ctx || document).querySelectorAll(sel));
 
   const prefersReduced = window.matchMedia &&
                          window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  /* =======================================================================
+     🎵  YOUR SONG LINK IS HERE  🎵
+     ======================================================================= */
+  const SONG_URL = "https://github.com/Rupeshpandey09/11/raw/refs/heads/main/our.mp3";
+  /* ======================================================================= */
+
 
   /* =======================================================================
-     1. PARTICLE CANVAS — stars, glowing dots & tiny hearts
+     1. PARTICLE CANVAS
      ======================================================================= */
   (function particles () {
     const canvas = document.getElementById('stars');
@@ -1176,9 +1109,9 @@ body::before{
       const isHeart = Math.random() < 0.13;
       const tint = Math.random();
       let color;
-      if (tint < 0.55)      color = '255,168,205';   // rose
-      else if (tint < 0.82) color = '255,236,220';   // warm white
-      else                  color = '180,205,255';   // cool blue
+      if (tint < 0.55)      color = '255,168,205';
+      else if (tint < 0.82) color = '255,236,220';
+      else                  color = '180,205,255';
 
       return {
         x: Math.random() * W,
@@ -1220,7 +1153,6 @@ body::before{
         p.y += p.vy;
         p.phase += p.tw;
 
-        // gentle pointer repulsion (cursor / touch)
         if (pointer.active) {
           const dx = p.x - pointer.x;
           const dy = p.y - pointer.y;
@@ -1234,7 +1166,6 @@ body::before{
           }
         }
 
-        // wrap around
         if (p.y < -30) { p.y = H + 20; p.x = Math.random() * W; }
         if (p.x < -30) p.x = W + 20;
         if (p.x > W + 30) p.x = -20;
@@ -1259,7 +1190,6 @@ body::before{
       requestAnimationFrame(frame);
     }
 
-    // Pointer tracking (mouse + touch)
     window.addEventListener('mousemove', function (e) {
       pointer.x = e.clientX;
       pointer.y = e.clientY;
@@ -1294,7 +1224,7 @@ body::before{
 
 
   /* =======================================================================
-     2. INTRO — word-by-word "handwriting" reveal
+     2. INTRO
      ======================================================================= */
   const introEl   = $('#intro');
   const beginBtn  = $('#beginBtn');
@@ -1331,10 +1261,10 @@ body::before{
 
 
   /* =======================================================================
-     3. MUSIC PLAYER
+     3. MUSIC PLAYER  (crossOrigin removed for GitHub compatibility)
      ======================================================================= */
-  const player     = $('#musicPlayer');
-  const musicIcon  = $('#musicIcon');
+  const player      = $('#musicPlayer');
+  const musicIcon   = $('#musicIcon');
   const musicStatus = $('#musicStatus');
 
   let audio = null;
@@ -1342,12 +1272,11 @@ body::before{
   let userPaused = false;
 
   const isConfigured = SONG_URL &&
-                       SONG_URL !== 'PASTE_YOUR_SONG_LINK_HERE' &&
+                       SONG_URL !== 'https://github.com/Rupeshpandey09/11/raw/refs/heads/main/our.mp3' &&
                        SONG_URL.trim() !== '';
 
   function initAudio () {
     if (!isConfigured) {
-      // No song link pasted yet — the player stays hidden.
       console.info('[Chemistry of Us] Add your song link to SONG_URL to enable music.');
       return;
     }
@@ -1357,13 +1286,15 @@ body::before{
     audio.loop = true;
     audio.preload = 'auto';
     audio.volume = 0.6;
-    audio.crossOrigin = 'anonymous';
+    // NOTE: crossOrigin intentionally NOT set — GitHub raw links
+    // don't send CORS headers, and setting it breaks playback.
 
     audio.addEventListener('canplaythrough', function () { audioReady = true; }, { once: true });
     audio.addEventListener('play',  function () { setPlayingUI(true);  });
     audio.addEventListener('pause', function () { setPlayingUI(false); });
     audio.addEventListener('error', function () {
-      musicStatus.textContent = 'unavailable';
+      musicStatus.textContent = 'tap to retry';
+      console.warn('[Chemistry of Us] Audio failed to load. If this is a GitHub link, try Cloudinary or Catbox instead.');
     });
 
     player.classList.remove('hidden');
@@ -1385,7 +1316,6 @@ body::before{
       p.then(function () {
         userPaused = false;
       }).catch(function () {
-        // Autoplay blocked — wait for a real user gesture.
         if (!fromUser) {
           musicStatus.textContent = 'tap to play';
         }
@@ -1418,7 +1348,7 @@ body::before{
 
 
   /* =======================================================================
-     4. BEGIN — fade from intro into the experience
+     4. BEGIN
      ======================================================================= */
   let started = false;
 
@@ -1426,10 +1356,8 @@ body::before{
     if (started) return;
     started = true;
 
-    // Clear any pending intro timers
     timers.forEach(clearTimeout);
 
-    // Music: this click is a user gesture, so it will be allowed.
     if (audio && !userPaused) {
       tryPlay(true);
     }
@@ -1442,10 +1370,8 @@ body::before{
 
     window.scrollTo(0, 0);
 
-    // Kick off the reveal system once the experience is on screen
     startReveals();
 
-    // Remove the intro from the DOM after its fade-out
     setTimeout(function () {
       if (introEl && introEl.parentNode) introEl.parentNode.removeChild(introEl);
     }, 1600);
@@ -1486,7 +1412,6 @@ body::before{
 
     items.forEach(function (el) { io.observe(el); });
 
-    // ---- Reaction stage (atoms bonding) ----
     const stage = $('#stage');
     const caption = $('#reactionCaption');
 
@@ -1514,8 +1439,7 @@ body::before{
 
 
   /* =======================================================================
-     6. FALLBACK: try to start music on the very first user interaction
-        (covers browsers that block the initial autoplay attempt)
+     6. FIRST-GESTURE FALLBACK
      ======================================================================= */
   function firstGesture () {
     if (audio && !userPaused && audio.paused) {
